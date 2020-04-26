@@ -1,5 +1,6 @@
 #add parent dir to find package. Only needed for source code build, pip install doesn't need it.
 import os, inspect
+import random
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(os.path.dirname(currentdir))
 os.sys.path.insert(0,parentdir)
@@ -9,7 +10,7 @@ import numpy as np
 import pybullet as p
 import pybulletgym.envs
 import time
-
+from gym import wrappers
 
 def relu(x):
     return np.maximum(x, 0)
@@ -35,6 +36,8 @@ class SmallReactivePolicy:
 def main():
     env = gym.make("HumanoidPyBulletEnv-v0")
     env.render(mode="human")
+    print("Obs space: ", env.observation_space.shape[0])
+    # env = wrappers.Monitor(env, "~/", video_callable=False ,force=True)
     pi = SmallReactivePolicy(env.observation_space, env.action_space)
 
     env.reset()
@@ -47,20 +50,24 @@ def main():
     while 1:
         frame = 0
         score = 0
-        restart_delay = 0
+        restart_delay = 1000000
         obs = env.reset()
        
         while 1:
-            time.sleep(0.02)
+            time.sleep(0.01)
             a = pi.act(obs)
+            # print(a)
+            # a = random.randrange(obs.size)
             obs, r, done, _ = env.step(a)
+            # print(obs.size)
             score += r
             frame += 1
             distance = 5
             yaw = 0
             humanPos, humanOrn = p.getBasePositionAndOrientation(torsoId)
-            p.resetDebugVisualizerCamera(distance, yaw, -20, humanPos)
+            # p.resetDebugVisualizerCamera(distance, yaw, -20, humanPos)
 
+            still_open = 1
             still_open = env.render("human")
             if still_open is None:
                 return

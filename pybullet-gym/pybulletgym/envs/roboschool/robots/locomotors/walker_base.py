@@ -26,6 +26,15 @@ class WalkerBase(XmlBasedRobot):
 
     def apply_action(self, a):
         assert (np.isfinite(a).all())
+        # int i;
+        # for (i=dynamicsWorld->getNumCollisionObjects()-1; i>=0 ;i--)
+        # {
+        #     btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
+        #     btRigidBody* body = btRigidBody::upcast(obj);
+        #     if(!body->isStaticObject())
+        #     body->applyCentralForce(btVector3(10.f,0.f,0.f)); 
+        # }
+
         for n, j in enumerate(self.ordered_joints):
             j.set_motor_torque(self.power * j.power_coef * float(np.clip(a[n], -1, +1)))
 

@@ -214,17 +214,13 @@ class AcrobotEnv(core.Env):
             self.viewer = None
 
 def wrap(x, m, M):
-    """Wraps ``x`` so m <= x <= M; but unlike ``bound()`` which
+    """
+    :param x: a scalar
+    :param m: minimum possible value in range
+    :param M: maximum possible value in range
+    Wraps ``x`` so m <= x <= M; but unlike ``bound()`` which
     truncates, ``wrap()`` wraps x around the coordinate system defined by m,M.\n
     For example, m = -180, M = 180 (degrees), x = 360 --> returns 0.
-
-    Args:
-        x: a scalar
-        m: minimum possible value in range
-        M: maximum possible value in range
-
-    Returns:
-        x: a scalar, wrapped
     """
     diff = M - m
     while x > M:
@@ -234,14 +230,10 @@ def wrap(x, m, M):
     return x
 
 def bound(x, m, M=None):
-    """Either have m as scalar, so bound(x,m,M) which returns m <= x <= M *OR*
+    """
+    :param x: scalar
+    Either have m as scalar, so bound(x,m,M) which returns m <= x <= M *OR*
     have m as length 2 vector, bound(x,m, <IGNORED>) returns m[0] <= x <= m[1].
-
-    Args:
-        x: scalar
-
-    Returns:
-        x: scalar, bound between min (m) and Max (M)
     """
     if M is None:
         M = m[1]
@@ -256,14 +248,17 @@ def rk4(derivs, y0, t, *args, **kwargs):
     This is a toy implementation which may be useful if you find
     yourself stranded on a system w/o scipy.  Otherwise use
     :func:`scipy.integrate`.
-
-    Args:
-        derivs: the derivative of the system and has the signature ``dy = derivs(yi, ti)``
-        y0: initial state vector
-        t: sample times
-        args: additional arguments passed to the derivative function
-        kwargs: additional keyword arguments passed to the derivative function
-
+    *y0*
+        initial state vector
+    *t*
+        sample times
+    *derivs*
+        returns the derivative of the system and has the
+        signature ``dy = derivs(yi, ti)``
+    *args*
+        additional arguments passed to the derivative function
+    *kwargs*
+        additional keyword arguments passed to the derivative function
     Example 1 ::
         ## 2D system
         def derivs6(x,t):
@@ -283,9 +278,6 @@ def rk4(derivs, y0, t, *args, **kwargs):
         yout = rk4(derivs, y0, t)
     If you have access to scipy, you should probably be using the
     scipy.integrate tools rather than this function.
-
-    Returns:
-        yout: Runge-Kutta approximation of the ODE
     """
 
     try:

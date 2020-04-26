@@ -1,13 +1,19 @@
 from pybulletgym.envs.roboschool.envs.env_bases import BaseBulletEnv
 from pybulletgym.envs.roboschool.scenes import StadiumScene
+from pybullet_utils import bullet_client
 import pybullet
 import numpy as np
 
 
 class WalkerBaseBulletEnv(BaseBulletEnv):
     def __init__(self, robot, render=False):
+        # self._p = bullet_client.BulletClient()
         print("WalkerBase::__init__")
         BaseBulletEnv.__init__(self, robot, render)
+        # if self.isRender:
+        #     self._p = bullet_client.BulletClient(connection_mode=pybullet.GUI)
+        # else:
+
         self.camera_x = 0
         self.walk_target_x = 1e3  # kilometer away
         self.walk_target_y = 0
@@ -18,9 +24,10 @@ class WalkerBaseBulletEnv(BaseBulletEnv):
         return self.stadium_scene
 
     def reset(self):
-        if self.stateId >= 0:
+        # if self.stateId >= 0:
+
             # print("restoreState self.stateId:",self.stateId)
-            self._p.restoreState(self.stateId)
+            # self._p.restoreState(self.stateId)
 
         r = BaseBulletEnv._reset(self)
         self._p.configureDebugVisualizer(pybullet.COV_ENABLE_RENDERING,0)
@@ -43,11 +50,11 @@ class WalkerBaseBulletEnv(BaseBulletEnv):
         pose.move_xyz(init_x, init_y, init_z)  # Works because robot loads around (0,0,0), and some robots have z != 0 that is left intact
         self.cpp_robot.set_pose(pose)
 
-    electricity_cost = -2.0	 # cost for using motors -- this parameter should be carefully tuned against reward for making progress, other values less improtant
+    electricity_cost = -2.0  # cost for using motors -- this parameter should be carefully tuned against reward for making progress, other values less improtant
     stall_torque_cost = -0.1  # cost for running electric current through a motor even at zero rotational speed, small
-    foot_collision_cost = -1.0	# touches another leg, or other objects, that cost makes robot avoid smashing feet into itself
+    foot_collision_cost = -1.0  # touches another leg, or other objects, that cost makes robot avoid smashing feet into itself
     foot_ground_object_names = set(["floor"])  # to distinguish ground and other objects
-    joints_at_limit_cost = -0.1	 # discourage stuck joints
+    joints_at_limit_cost = -0.1  # discourage stuck joints
 
     def step(self, a):
         if not self.scene.multiplayer:  # if multiplayer, action first applied to all robots, then global step() called, then _step() for all robots with the same actions

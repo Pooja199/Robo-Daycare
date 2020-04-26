@@ -33,7 +33,8 @@ class SmallReactivePolicy:
 
 def main():
     print("create env")
-    env = gym.make("Walker2DPyBulletEnv-v0")
+    # env = gym.make("Walker2DPyBulletEnv-v0")
+    env = gym.make("Walker2DSoccerPyBulletEnv-v0")
     env.render(mode="human")
     pi = SmallReactivePolicy(env.observation_space, env.action_space)
 
@@ -51,11 +52,11 @@ def main():
     while 1:
         frame = 0
         score = 0
-        restart_delay = 0
+        restart_delay = 100000
         obs = env.reset()
         print("frame")
         while 1:
-            time.sleep(0.05)
+            time.sleep(0.01)
             a = pi.act(obs)
             obs, r, done, _ = env.step(a)
             score += r

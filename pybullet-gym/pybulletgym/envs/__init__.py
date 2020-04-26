@@ -2,6 +2,7 @@ from gym.envs.registration import register
 
 # roboschool envs
 ## pendula
+
 register(
 	id='InvertedPendulumPyBulletEnv-v0',
 	entry_point='pybulletgym.envs.roboschool.envs.pendulum.inverted_pendulum_env:InvertedPendulumBulletEnv',
@@ -60,6 +61,36 @@ register(
 	max_episode_steps=1000,
 	reward_threshold=2500.0
 	)
+
+register(
+	id='Walker2DWindPyBulletEnv-v0',
+	entry_point='pybulletgym.envs.roboschool.envs.locomotion.walker2d_wind_env:Walker2DWindBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+register(
+	id='Walker2DKickPyBulletEnv-v0',
+	entry_point='pybulletgym.envs.roboschool.envs.locomotion.walker2d_kick_env:Walker2DKickBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+register(
+	id='Walker2DSoccerPyBulletEnv-v0',
+	entry_point='pybulletgym.envs.roboschool.envs.locomotion.walker2d_soccer_env:Walker2DSoccerBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+
+register(
+	id='Walker2DDribblePyBulletEnv-v0',
+	entry_point='pybulletgym.envs.roboschool.envs.locomotion.walker2d_dribble_env:Walker2DDribbleBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
 register(
 	id='HalfCheetahPyBulletEnv-v0',
 	entry_point='pybulletgym.envs.roboschool.envs.locomotion.half_cheetah_env:HalfCheetahBulletEnv',
@@ -79,6 +110,19 @@ register(
 	entry_point='pybulletgym.envs.roboschool.envs.locomotion.hopper_env:HopperBulletEnv',
 	max_episode_steps=1000,
 	reward_threshold=2500.0
+	)
+
+register(
+	id='HopperWindPyBulletEnv-v0',
+	entry_point='pybulletgym.envs.roboschool.envs.locomotion.hopper_wind_env:HopperWindBulletEnv',
+	max_episode_steps=1000,
+	reward_threshold=2500.0
+	)
+
+register(
+	id='HumanoidWindPyBulletEnv-v0',
+	entry_point='pybulletgym.envs.roboschool.envs.locomotion.humanoid_wind_env:HumanoidWindBulletEnv',
+	max_episode_steps=1000
 	)
 
 register(

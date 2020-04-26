@@ -1,5 +1,6 @@
 from pybulletgym.envs.roboschool.envs.locomotion.walker_base_env import WalkerBaseBulletEnv
 from pybulletgym.envs.roboschool.robots.locomotors import Humanoid
+# from pybulletgym.envs.roboschool.robots.locomotors.humanoid_soccer import HumanoidSoccer
 
 
 class HumanoidBulletEnv(WalkerBaseBulletEnv):

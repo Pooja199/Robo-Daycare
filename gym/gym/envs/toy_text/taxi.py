@@ -1,6 +1,6 @@
 import sys
 from contextlib import closing
-from io import StringIO
+from six import StringIO
 from gym import utils
 from gym.envs.toy_text import discrete
 import numpy as np

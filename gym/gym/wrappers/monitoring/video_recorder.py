@@ -5,7 +5,8 @@ import tempfile
 import os.path
 import distutils.spawn, distutils.version
 import numpy as np
-from io import StringIO
+from six import StringIO
+import six
 from gym import error, logger
 
 def touch(path):
@@ -181,8 +182,9 @@ class TextEncoder(object):
         self.frames = []
 
     def capture_frame(self, frame):
+        from six import string_types
         string = None
-        if isinstance(frame, str):
+        if isinstance(frame, string_types):
             string = frame
         elif isinstance(frame, StringIO):
             string = frame.getvalue()
@@ -191,10 +193,10 @@ class TextEncoder(object):
 
         frame_bytes = string.encode('utf-8')
 
-        if frame_bytes[-1:] != b'\n':
+        if frame_bytes[-1:] != six.b('\n'):
             raise error.InvalidFrame('Frame must end with a newline: """{}"""'.format(string))
 
-        if b'\r' in frame_bytes:
+        if six.b('\r') in frame_bytes:
             raise error.InvalidFrame('Frame contains carriage returns (only newlines are allowed: """{}"""'.format(string))
 
         self.frames.append(frame_bytes)
@@ -206,14 +208,14 @@ class TextEncoder(object):
         # Turn frames into events: clear screen beforehand
         # https://rosettacode.org/wiki/Terminal_control/Clear_the_screen#Python
         # https://rosettacode.org/wiki/Terminal_control/Cursor_positioning#Python
-        clear_code = b"%c[2J\033[1;1H" % (27)
+        clear_code = six.b("%c[2J\033[1;1H" % (27))
         # Decode the bytes as UTF-8 since JSON may only contain UTF-8
-        events = [ (frame_duration, (clear_code+frame.replace(b'\n', b'\r\n')).decode('utf-8'))  for frame in self.frames ]
+        events = [ (frame_duration, (clear_code+frame.replace(six.b('\n'),six.b('\r\n'))).decode('utf-8'))  for frame in self.frames ]
 
         # Calculate frame size from the largest frames.
         # Add some padding since we'll get cut off otherwise.
-        height = max([frame.count(b'\n') for frame in self.frames]) + 1
-        width = max([max([len(line) for line in frame.split(b'\n')]) for frame in self.frames]) + 2
+        height = max([frame.count(six.b('\n')) for frame in self.frames]) + 1
+        width = max([max([len(line) for line in frame.split(six.b('\n'))]) for frame in self.frames]) + 2
 
         data = {
             "version": 1,

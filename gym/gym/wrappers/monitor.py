@@ -1,7 +1,7 @@
 import gym
 from gym import Wrapper
 from gym import error, version, logger
-import os, json, numpy as np
+import os, json, numpy as np, six
 from gym.wrappers.monitoring import stats_recorder, video_recorder
 from gym.utils import atomic_write, closer
 from gym.utils.json_utils import json_encode_np
@@ -66,7 +66,10 @@ class Monitor(Wrapper):
 
         if not os.path.exists(directory):
             logger.info('Creating monitor directory %s', directory)
-            os.makedirs(directory, exist_ok=True)
+            if six.PY3:
+                os.makedirs(directory, exist_ok=True)
+            else:
+                os.makedirs(directory)
 
         if video_callable is None:
             video_callable = capped_cubic_video_schedule

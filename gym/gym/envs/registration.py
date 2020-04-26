@@ -1,5 +1,4 @@
 import re
-import copy
 import importlib
 import warnings
 
@@ -60,9 +59,7 @@ class EnvSpec(object):
             env = cls(**_kwargs)
 
         # Make the environment aware of which spec it came from.
-        spec = copy.deepcopy(self)
-        spec._kwargs = _kwargs
-        env.unwrapped.spec = spec
+        env.unwrapped.spec = self
 
         return env
 

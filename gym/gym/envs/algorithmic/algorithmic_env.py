@@ -36,7 +36,7 @@ from gym.utils import colorize, seeding
 import sys
 from contextlib import closing
 import numpy as np
-from io import StringIO
+from six import StringIO
 
 
 class AlgorithmicEnv(Env):
