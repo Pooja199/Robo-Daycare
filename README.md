@@ -34,6 +34,16 @@ env = gym.make('HumanoidPyBulletEnv-v0')
 env.reset()  # should return a state vector if everything worked
 ```
 
+To train, run:
+```bash
+python3 PPO_continuous.py
+```
+
+To visualize with the weights generated from training:
+```bash
+python3 test_continuous.py
+```
+
 ## State of implementations
 
 Environment Name |
